@@ -26,7 +26,6 @@ THE SOFTWARE.
 #include <nan.h>
 #include "init.h"
 #include "write.h"
-#include "read.h"
 
 using v8::FunctionTemplate;
 using v8::Handle;
@@ -36,6 +35,8 @@ using v8::String;
 void InitAll(Handle<Object> exports) {
   exports->Set(NanNew<String>("init"),
     NanNew<FunctionTemplate>(init)->GetFunction());
+  exports->Set(NanNew<String>("write"),
+    NanNew<FunctionTemplate>(write)->GetFunction());
 }
 
 NODE_MODULE(addon, InitAll)

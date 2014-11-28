@@ -27,7 +27,9 @@ THE SOFTWARE.
 #include <wiringPi.h>
 #include "./write.h"
 
-using v8::Number;
+pwmSetMode(PWM_MODE_MS);
+pwmSetClock(400);
+pwmSetRange(1000);
 
 NAN_METHOD(init) {
   NanScope();
