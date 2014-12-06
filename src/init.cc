@@ -27,16 +27,16 @@ THE SOFTWARE.
 #include <wiringPi.h>
 #include "./write.h"
 
-pwmSetMode(PWM_MODE_MS);
-pwmSetClock(400);
-pwmSetRange(1000);
-
 NAN_METHOD(init) {
   NanScope();
 
   int pin = args[0]->Int32Value();
 
   pinMode(pin, 2);
+
+  pwmSetMode(PWM_MODE_MS);
+  pwmSetClock(400);
+  pwmSetRange(1000);
 
   NanReturnUndefined();
 }

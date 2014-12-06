@@ -28,7 +28,7 @@ import addon from '../build/Release/addon';
 export class PWM extends Peripheral {
   constructor() {
     super('GPIO18');
-    addon.init(this.pin);
+    addon.init(this.pins[0]);
   }
 
   write(value) {
@@ -38,6 +38,6 @@ export class PWM extends Peripheral {
     if (typeof value != 'number' || value < 0 || value > 1024) {
       throw new Error('Invalid PWM value ' + value);
     }
-    addon.write(this.pin, value);
+    addon.write(this.pins[0], value);
   }
 }
