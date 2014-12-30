@@ -27,7 +27,7 @@ import addon from '../build/Release/addon';
 
 export class PWM extends Peripheral {
   constructor() {
-    super('GPIO18');
+    super('PWM0');
     addon.init(this.pins[0]);
   }
 

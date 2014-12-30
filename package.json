@@ -1,11 +1,11 @@
 {
   "name": "raspi-pwm",
-  "version": "1.0.1",
-  "description": "Provides access to PWM on the Raspberry Pi from Node.js",
+  "version": "1.0.2",
+  "description": "Provides access to PWM on the Raspberry Pi as part of the Raspi.js library suite",
   "main": "lib/index.js",
   "dependencies": {
     "nan": "^1.4.0",
-    "raspi-peripheral": "^1.0.1"
+    "raspi-peripheral": "^1.0.5"
   },
   "devDependencies": {
     "del": "^0.1.3",

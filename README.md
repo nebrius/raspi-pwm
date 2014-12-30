@@ -1,7 +1,7 @@
 Raspi PWM
 ==========
 
-Raspi PWM is part of the [Raspi suite of libraries](https://github.com/bryan-m-hughes/raspi-core) that provides access to the hardware PWM port on pin 12 (GPIO18).
+Raspi PWM is part of the [Raspi suite of libraries](https://github.com/bryan-m-hughes/raspi-core) that provides access to the hardware PWM on pin 12 (GPIO18).
 
 ## Installation
 
@@ -25,7 +25,7 @@ var PWM = require('raspi-pwm').PWM;
 
 core.init(function() {
   var pwm = new PWM();
-  pwm.write(48); // Center a servo 
+  pwm.write(72); // Center a servo 
 });
 ```
 
@@ -37,7 +37,7 @@ Instantiates a new PWM instance on GPIO18. Takes no arguments
 
 #### write(value)
 
-Sets the duty cycle for the PWM output. The PWM does not start running until write is called for the first time.
+Sets the duty cycle for the PWM output. The period is 20ms.
 
 Arguments:
 
@@ -57,6 +57,8 @@ Arguments:
 </table>
 
 Return Type: None
+
+Note: The PWM does not start outputting a signal until write is called for the first time.
 
 License
 =======
