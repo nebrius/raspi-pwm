@@ -1,3 +1,7 @@
+## 1.0.3 (2015-1-8)
+
+- Added pre-built lib so users don't have to compile on their own Raspberry Pis.
+
 ## 1.0.2 (2014-12-29)
 
 - Added docs

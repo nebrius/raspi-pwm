@@ -23,7 +23,7 @@ THE SOFTWARE.
 */
 
 import { Peripheral } from 'raspi-peripheral';
-import addon from '../build/Release/addon';
+import addon from '../lib/addon';
 
 export class PWM extends Peripheral {
   constructor() {
