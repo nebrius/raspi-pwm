@@ -1,11 +1,11 @@
 Raspi PWM
 ==========
 
-Raspi PWM is part of the [Raspi.js suite of libraries](https://github.com/bryan-m-hughes/raspi-core) that provides access to the hardware PWM on pin 12 (GPIO18).
+Raspi PWM is part of the [Raspi.js suite](https://github.com/bryan-m-hughes/raspi) that provides access to the hardware PWM on pin 12 (GPIO18).
 
 ## Installation
 
-First, be sure that you have installed [raspi-core](https://github.com/bryan-m-hughes/raspi-core).
+First, be sure that you have installed [raspi](https://github.com/bryan-m-hughes/raspi).
 
 Install with NPM:
 
@@ -22,10 +22,10 @@ npm install -g node-gyp
 ## Example Usage
 
 ```JavaScript
-var core = require('raspi-core');
+var raspi = require('raspi');
 var PWM = require('raspi-pwm').PWM;
 
-core.init(function() {
+raspi.init(function() {
   var pwm = new PWM();
   pwm.write(72); // Center a servo 
 });
