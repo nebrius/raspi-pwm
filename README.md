@@ -33,9 +33,26 @@ raspi.init(function() {
 
 ## API
 
-### new PWM()
+### new PWM(pin)
 
-Instantiates a new PWM instance on GPIO18. Takes no arguments
+Instantiates a new PWM instance on the given pin. Note that PWM is limited to only 1 pin on the Model A/B and 2 pins on the A+/B+/2. Check the [wiring information wiki](https://github.com/bryan-m-hughes/raspi-io/wiki) for more information.
+
+_Arguments_:
+
+<table>
+  <thead>
+    <tr>
+      <th>Argument</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tr>
+    <td>pin</td>
+    <td>Number</td>
+    <td>The pin number or descriptor for the peripheral.</td>
+  </tr>
+</table>
 
 ### Instance Methods
 

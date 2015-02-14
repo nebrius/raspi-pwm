@@ -1,3 +1,7 @@
+## 1.1.0 (2015-2-13)
+
+- Added support for multiple PWMs. Note: the API was extended, but is backwards compatible with 1.0.x releases
+
 ## 1.0.5 (2015-2-12)
 
 - README updates

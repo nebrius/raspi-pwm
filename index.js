@@ -26,8 +26,11 @@ import { Peripheral } from 'raspi-peripheral';
 import addon from '../lib/addon';
 
 export class PWM extends Peripheral {
-  constructor() {
-    super('PWM0');
+  constructor(pin) {
+    if (typeof pin == 'undefined') {
+      pin = 'PWM0';
+    }
+    super(pin);
     addon.init(this.pins[0]);
   }
 
