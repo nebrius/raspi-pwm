@@ -1,3 +1,7 @@
+## 1.2.1 (2015-2-20)
+
+- Fixed a bug with mismatched versions of the traceur runtime
+
 ## 1.2.0 (2015-2-20)
 
 - Removed prebuilt binary support as there are now multiple targets (need to use node-pre-gyp)
