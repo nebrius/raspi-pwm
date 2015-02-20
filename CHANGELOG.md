@@ -1,3 +1,9 @@
+## 1.2.0 (2015-2-20)
+
+- Removed prebuilt binary support as there are now multiple targets (need to use node-pre-gyp)
+- Upgraded NAN to get support for Node.js 0.12
+  - io.js support is theoretically there, but won't work until https://github.com/TooTallNate/node-gyp/pull/564 is landed
+
 ## 1.1.0 (2015-2-13)
 
 - Added support for multiple PWMs. Note: the API was extended, but is backwards compatible with 1.0.x releases

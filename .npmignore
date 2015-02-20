@@ -1,3 +1,0 @@
-# We don't publish the binding.gyp or C++ source files since we include the pre-built binary
-binding.gyp
-src
