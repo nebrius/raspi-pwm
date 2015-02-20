@@ -1,6 +1,7 @@
-## 1.2.1 (2015-2-20)
+## 1.2.2 (2015-2-20)
 
 - Fixed a bug with mismatched versions of the traceur runtime
+- Skipped 1.2.1 because of a typo on my part when publishing (oops)
 
 ## 1.2.0 (2015-2-20)
 
