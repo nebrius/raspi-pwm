@@ -1,3 +1,7 @@
+## 1.3.0 (2015-2-21)
+
+- Switched from traceur to babel for ES6->ES5 compilation
+
 ## 1.2.2 (2015-2-20)
 
 - Fixed a bug with mismatched versions of the traceur runtime
