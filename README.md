@@ -48,7 +48,7 @@ _Arguments_:
     </tr>
   </thead>
   <tr>
-    <td>pin</td>
+    <td>pin (optional)</td>
     <td>Number</td>
     <td>The pin number or descriptor for the peripheral.</td>
   </tr>
