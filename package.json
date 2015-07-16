@@ -1,11 +1,11 @@
 {
   "name": "raspi-pwm",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Provides access to PWM on the Raspberry Pi as part of the Raspi.js library suite",
   "main": "lib/index.js",
   "dependencies": {
     "nan": "1.6.x",
-    "raspi-peripheral": "1.1.1"
+    "raspi-peripheral": "1.2.1"
   },
   "devDependencies": {
     "del": "^1.1.1",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bryan-m-hughes/raspi-pwm.git"
+    "url": "https://github.com/nebrius/raspi-pwm.git"
   },
   "keywords": [
     "nodebots",
@@ -29,7 +29,7 @@
   "license": "MIT",
   "gypfile": true,
   "bugs": {
-    "url": "https://github.com/bryan-m-hughes/raspi-pwm/issues"
+    "url": "https://github.com/nebrius/raspi-pwm/issues"
   },
-  "homepage": "https://github.com/bryan-m-hughes/raspi-pwm"
+  "homepage": "https://github.com/nebrius/raspi-pwm"
 }
