@@ -1,3 +1,9 @@
+## 1.4.0 (2015-10-13)
+
+- Exposed clock and range properties
+- Dependency updates to fix bug with invalid pin aliases
+- Updated build dependencies
+
 ## 1.3.3 (2015-9-3)
 
 - Dependency updates to fix a bug with pin aliasing

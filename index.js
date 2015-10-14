@@ -26,12 +26,25 @@ import { Peripheral } from 'raspi-peripheral';
 import addon from '../build/Release/addon';
 
 export class PWM extends Peripheral {
-  constructor(pin) {
-    if (typeof pin == 'undefined') {
-      pin = 'PWM0';
+  constructor(config) {
+    let pin = 'PWM0';
+    let clockDivisor = 400;
+    let range = 1000;
+    if (typeof config == 'number' || typeof config == 'string') {
+      pin = config;
+    } else if (typeof config == 'object') {
+      if (typeof config.pin == 'number' || typeof config.pin == 'string') {
+        pin = config.pin;
+      }
+      if (typeof config.clockDivisor == 'number') {
+        clockDivisor = config.clockDivisor;
+      }
+      if (typeof config.range == 'number') {
+        range = config.range;
+      }
     }
     super(pin);
-    addon.init(this.pins[0]);
+    addon.init(this.pins[0], clockDivisor, range);
   }
 
   write(value) {

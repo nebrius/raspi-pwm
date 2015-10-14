@@ -31,12 +31,14 @@ NAN_METHOD(init) {
   NanScope();
 
   int pin = args[0]->Int32Value();
+  int clock = args[1]->Int32Value();
+  int range = args[2]->Int32Value();
 
-  pinMode(pin, 2);
+  pinMode(pin, PWM_OUTPUT);
 
   pwmSetMode(PWM_MODE_MS);
-  pwmSetClock(400);
-  pwmSetRange(1000);
+  pwmSetClock(clock);
+  pwmSetRange(range);
 
   NanReturnUndefined();
 }

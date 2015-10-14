@@ -29,11 +29,20 @@ raspi.init(function() {
 });
 ```
 
+## Pin Naming
+
+The pins on the Raspberry Pi are a little complicated. There are multiple headers on some Raspberry Pis with extra pins, and the pin numbers are not consistent between Raspberry Pi board versions.
+
+To help make it easier, you can specify pins in three ways. The first is to specify the pin by function, e.g. ```'GPIO18'```. The second way is to specify by pin number, which is specified in the form "P[header]-[pin]", e.g. ```'P1-7'```. The final way is specify the [Wiring Pi virtual pin number](http://wiringpi.com/pins/), e.g. ```7```. If you specify a number instead of a string, it is assumed to be a Wiring Pi number.
+
+Be sure to read the [full list of pins](https://github.com/nebrius/raspi-io/wiki) on the supported models of the Raspberry Pi.
+
+
 ## API
 
-### new PWM(pin)
+### new PWM(config)
 
-Instantiates a new PWM instance on the given pin. Note that PWM is limited to only 1 pin on the Model A/B and 2 pins on the A+/B+/2. Check the [wiring information wiki](https://github.com/bryan-m-hughes/raspi-io/wiki) for more information.
+Instantiates a new PWM instance on the given pin. Note that PWM is limited to only 1 pin on the Model A/B and 2 pins on the A+/B+/2. On the A/B, the PWM pin is exposed on ```GPIO18```. The A+/B+/2 is a little more complicated. The first PWM is exposed on two pins, ```GPIO18``` and ```GPIO12```. This PWM can only be active on one of these pins at a time, however, so choose carefully. The second PWM pin on the A+/B+/2 is exposed on ```GPIO19```. Check the [wiring information wiki](https://github.com/bryan-m-hughes/raspi-io/wiki) for more information.
 
 _Arguments_:
 
@@ -46,9 +55,38 @@ _Arguments_:
     </tr>
   </thead>
   <tr>
-    <td>pin (optional)</td>
-    <td>Number</td>
-    <td>The pin number or descriptor for the peripheral.</td>
+    <td>config (optional)</td>
+    <td>Number | String | Object</td>
+    <td>The configuration for the PWM pin. If the config is a number or string, it is assumed to be the pin number for the peripheral. If it is an object, the following properties are supported:</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="2">
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tr>
+          <td>pin (optional)</td>
+          <td>Number | String</td>
+          <td>The pin number or descriptor for the peripheral</td>
+        </tr>
+        <tr>
+          <td>range (optional)</td>
+          <td>Number</td>
+          <td>Sets the range register in the PWM peripheral. This value controls how <em>many</em> clock cycles are used in one period. Use in conjunction with the clockDivisor property to set the period.</td>
+        </tr>
+        <tr>
+          <td>clockDivisor (optional)</td>
+          <td>Number</td>
+          <td>Sets the clock divisor register in the PWM peripheral. This value controls how long each clock cycle is. This value is a divisor, i.e. higher values mean lower clock speeds. Use in conjunction with the range property to set the period.</td>
+        </tr>
+      </table>
+    </td>
   </tr>
 </table>
 
