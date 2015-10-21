@@ -4,6 +4,7 @@
   - POTENTIAL BREAKING CHANGE
   - The API has not changed, but the build requirements have
   - Make sure you are running Raspbian Jesse because this module no longer builds on stock Raspbian Wheezy
+  - See https://github.com/fivdi/onoff/wiki/Node.js-v4-and-native-addons for more information
 
 ## 1.4.0 (2015-10-13)
 
