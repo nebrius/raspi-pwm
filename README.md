@@ -3,13 +3,13 @@ Raspi PWM
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nebrius/raspi-io?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Raspi PWM is part of the [Raspi.js suite](https://github.com/bryan-m-hughes/raspi) that provides access to the hardware PWM on pin 12 (GPIO18).
+Raspi PWM is part of the [Raspi.js suite](https://github.com/nebrius/raspi) that provides access to the hardware PWM on pin 12 (GPIO18).
 
 If you have a bug report, feature request, or wish to contribute code, please be sure to check out the [Contributing Guide](blob/master/CONTRIBUTING.md).
 
 ## Installation
 
-First, be sure that you have installed [raspi](https://github.com/bryan-m-hughes/raspi).
+First, be sure that you have installed [raspi](https://github.com/nebrius/raspi).
 
 Install with NPM:
 
@@ -44,7 +44,7 @@ Be sure to read the [full list of pins](https://github.com/nebrius/raspi-io/wiki
 
 ### new PWM(config)
 
-Instantiates a new PWM instance on the given pin. Note that PWM is limited to only 1 pin on the Model A/B and 2 pins on the A+/B+/2. On the A/B, the PWM pin is exposed on ```GPIO18```. The A+/B+/2 is a little more complicated. The first PWM is exposed on two pins, ```GPIO18``` and ```GPIO12```. This PWM can only be active on one of these pins at a time, however, so choose carefully. The second PWM pin on the A+/B+/2 is exposed on ```GPIO19```. Check the [wiring information wiki](https://github.com/bryan-m-hughes/raspi-io/wiki) for more information.
+Instantiates a new PWM instance on the given pin. Note that PWM is limited to only 1 pin on the Model A/B and 2 pins on the A+/B+/2/Zero. On the A/B, the PWM pin is exposed on ```GPIO18```. The A+/B+/2 is a little more complicated. The first PWM is exposed on two pins, ```GPIO18``` and ```GPIO12```. This PWM can only be active on one of these pins at a time, however, so choose carefully. The second PWM pin on the A+/B+/2/Zero is exposed on ```GPIO19```. Check the [wiring information wiki](https://github.com/nebrius/raspi-io/wiki) for more information.
 
 _Arguments_:
 
