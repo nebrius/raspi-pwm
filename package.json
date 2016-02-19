@@ -1,6 +1,6 @@
 {
   "name": "raspi-pwm",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Provides access to PWM on the Raspberry Pi as part of the Raspi.js library suite",
   "main": "lib/index.js",
   "dependencies": {

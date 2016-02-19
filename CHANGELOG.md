@@ -1,3 +1,7 @@
+## 2.2.0 (2016-2-18)
+
+- Added `range` and `clockDivisor` accessors
+
 ## 2.1.0 (2015-12-8)
 
 - Updated dependencies to add Raspberry Pi Zero support

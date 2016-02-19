@@ -45,6 +45,20 @@ export class PWM extends Peripheral {
     }
     super(pin);
     addon.init(this.pins[0], clockDivisor, range);
+    Object.defineProperties(this, {
+      clockDivisor: {
+        get() {
+          return clockDivisor;
+        },
+        enumerable: true
+      },
+      range: {
+        get() {
+          return range;
+        },
+        enumerable: true
+      }
+    });
   }
 
   write(value) {

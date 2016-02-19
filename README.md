@@ -92,6 +92,16 @@ _Arguments_:
   </tr>
 </table>
 
+### Instance Properties
+
+#### range
+
+A number representing the range initialization value. If a value for `range` was passed to the constructor, it is reflected back here. If no value for `range` was passed to the constructor, then this reflects the default range value, currently 1000.
+
+#### clockDivisor
+
+A number representing the clock divisor initialization value. If a value for `clockDivisor` was passed to the constructor, it is reflected back here. If no value for `clockDivisor` was passed to the constructor, then this reflects the default range value, currently 400.
+
 ### Instance Methods
 
 #### write(value)
