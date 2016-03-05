@@ -1,3 +1,7 @@
+## 2.3.0 (2016-4-4)
+
+- Updated dependencies to add Raspberry Pi 3 Model B support
+
 ## 2.2.0 (2016-2-18)
 
 - Added `range` and `clockDivisor` accessors
