@@ -1,3 +1,9 @@
+## 3.0.0 (2016-3-20)
+
+- Dependency update to fix bug
+  - POTENTIALLY BREAKING CHANGE: using the identifier `PWM1` now maps to Wiring Pi pin 23, not 24
+- New build system
+
 ## 2.3.1 (2016-3-7)
 
 - Dependency update to add missing Raspberry Pi 3 Model B revision
