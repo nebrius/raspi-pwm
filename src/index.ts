@@ -23,49 +23,65 @@ THE SOFTWARE.
 */
 
 import { Peripheral } from 'raspi-peripheral';
-import addon from '../build/Release/addon';
+
+interface IAddon {
+  init(pin: number, clockDivisor: number, range: number): void;
+  write(pin: number, value: number): void;
+}
+
+export interface IConfig {
+  pin?: number | string;
+  clockDivisor?: number;
+  range?: number;
+}
+
+// Creating type definition files for native code is...not so simple, so instead
+// we just disable tslint and trust that it works. It's not any less safe than
+// creating an external .d.ts file, and this way we don't have to move it around
+// tslint:disable-next-line
+const addon: IAddon = require('../build/Release/addon');
 
 export class PWM extends Peripheral {
-  constructor(config) {
-    let pin = 'PWM0';
+
+  private clockDivisorValue: number;
+  private rangeValue: number;
+
+  constructor(config: number | string | IConfig) {
+    let pin: number | string = 'PWM0';
     let clockDivisor = 400;
     let range = 1000;
-    if (typeof config == 'number' || typeof config == 'string') {
+    if (typeof config === 'number' || typeof config === 'string') {
       pin = config;
-    } else if (typeof config == 'object') {
-      if (typeof config.pin == 'number' || typeof config.pin == 'string') {
+    } else if (typeof config === 'object') {
+      if (typeof config.pin === 'number' || typeof config.pin === 'string') {
         pin = config.pin;
       }
-      if (typeof config.clockDivisor == 'number') {
+      if (typeof config.clockDivisor === 'number') {
         clockDivisor = config.clockDivisor;
       }
-      if (typeof config.range == 'number') {
+      if (typeof config.range === 'number') {
         range = config.range;
       }
     }
     super(pin);
+    this.rangeValue = range;
+    this.clockDivisorValue = clockDivisor;
     addon.init(this.pins[0], clockDivisor, range);
-    Object.defineProperties(this, {
-      clockDivisor: {
-        get() {
-          return clockDivisor;
-        },
-        enumerable: true
-      },
-      range: {
-        get() {
-          return range;
-        },
-        enumerable: true
-      }
-    });
   }
 
-  write(value) {
+  public get clockDivisor(): number {
+    return this.clockDivisorValue;
+  }
+
+  public get range(): number {
+    return this.rangeValue;
+  }
+
+  public write(value: number) {
     if (!this.alive) {
       throw new Error('Attempted to write to a destroyed peripheral');
     }
-    if (typeof value != 'number' || value < 0 || value > 1024) {
+    if (typeof value !== 'number' || value < 0 || value > 1024) {
       throw new Error('Invalid PWM value ' + value);
     }
     addon.write(this.pins[0], value);
