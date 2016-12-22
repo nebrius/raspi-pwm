@@ -7,7 +7,7 @@ export interface IConfig {
 export declare class PWM extends Peripheral {
     private clockDivisorValue;
     private rangeValue;
-    constructor(config: number | string | IConfig);
+    constructor(config?: number | string | IConfig);
     readonly clockDivisor: number;
     readonly range: number;
     write(value: number): void;

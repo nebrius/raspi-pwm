@@ -46,7 +46,7 @@ export class PWM extends Peripheral {
   private clockDivisorValue: number;
   private rangeValue: number;
 
-  constructor(config: number | string | IConfig) {
+  constructor(config?: number | string | IConfig) {
     let pin: number | string = 'PWM0';
     let clockDivisor = 400;
     let range = 1000;

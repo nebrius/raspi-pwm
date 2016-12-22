@@ -1,3 +1,8 @@
+## 3.1.2 (2016-12-21)
+
+- Fixed a TypeScript API definition bug where the constructor config was not marked as optional
+  - Note: this does not affect functionality unless you were using the TypeScript definition
+
 ## 3.1.1 (2016-12-3)
 
 - Converted the project to TypeScript and cleaned up a bunch of odds and ends
