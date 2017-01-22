@@ -17,18 +17,18 @@ Install with NPM:
 npm install raspi-pwm
 ```
 
-_Warning_: this module requires GCC 4.8 or newer. This means that you should be running Raspbian Jessie or newer, released in September of 2015.
+**Warning:** this module requires GCC 4.8 or newer. This means that you should be running Raspbian Jessie or newer, released in September of 2015.
 
-Note: this project is written in [TypeScript](http://www.typescriptlang.org/) and includes type definitions in the package.json file. This means that if you want to use it from TypeScript, you don't need to install a separate @types module.
+**Note:** this project is written in [TypeScript](http://www.typescriptlang.org/) and includes type definitions in the package.json file. This means that if you want to use it from TypeScript, you don't need to install a separate @types module.
 
 ## Example Usage
 
 ```JavaScript
-var raspi = require('raspi');
-var PWM = require('raspi-pwm').PWM;
+const raspi = require('raspi');
+const PWM = require('raspi-pwm').PWM;
 
-raspi.init(function() {
-  var pwm = new PWM();
+raspi.init(() => {
+  const pwm = new PWM();
   pwm.write(72); // Center a servo
 });
 ```
@@ -129,7 +129,7 @@ _Arguments_:
 
 _Returns_: None
 
-Note: The PWM does not start outputting a signal until write is called for the first time.
+**Note:** The PWM does not start outputting a signal until write is called for the first time.
 
 License
 =======

@@ -1,3 +1,7 @@
+## 3.1.3 (2017-22-1)
+
+- Publishing a new version to update the README on npmjs.com. No other changes.
+
 ## 3.1.2 (2016-12-21)
 
 - Fixed a TypeScript API definition bug where the constructor config was not marked as optional
