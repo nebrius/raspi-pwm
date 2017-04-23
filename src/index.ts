@@ -23,67 +23,109 @@ THE SOFTWARE.
 */
 
 import { Peripheral } from 'raspi-peripheral';
-
-interface IAddon {
-  init(pin: number, clockDivisor: number, range: number): void;
-  write(pin: number, value: number): void;
-}
+import { Gpio } from 'pigpio';
 
 export interface IConfig {
   pin?: number | string;
-  clockDivisor?: number;
-  range?: number;
+  frequency: number;
 }
 
-// Creating type definition files for native code is...not so simple, so instead
-// we just disable tslint and trust that it works. It's not any less safe than
-// creating an external .d.ts file, and this way we don't have to move it around
-// tslint:disable-next-line
-const addon: IAddon = require('../build/Release/addon');
+const MAX_DUTY_CYCLE = 1000000;
+
+const PWM0 = 'PWM0';
+const PWM1 = 'PWM1';
+
+// So there's a funky thing with PWM, where there are four PWM-capable pins,
+// but only two actual PWM ports. So the standard pin contention mechanism
+// doesn't _quite_ cover all cases. This object tracks which PWM peripherals are
+// in use at a given time, so we can do error checking on it.
+const pwmPeripheralsInUse = {
+  [PWM0]: false,
+  [PWM1]: false
+};
 
 export class PWM extends Peripheral {
 
-  private clockDivisorValue: number;
-  private rangeValue: number;
+  private frequencyValue: number;
+  private dutyCycleValue: number;
+  private pwmPort: string;
+
+  private pwm: Gpio;
+
+  public get frequency() {
+    return this.frequencyValue;
+  }
+
+  public get dutyCycle() {
+    return this.dutyCycleValue;
+  }
 
   constructor(config?: number | string | IConfig) {
-    let pin: number | string = 'PWM0';
-    let clockDivisor = 400;
-    let range = 1000;
+    let pin: number | string = 1;
+    let frequency = 50;
     if (typeof config === 'number' || typeof config === 'string') {
       pin = config;
     } else if (typeof config === 'object') {
       if (typeof config.pin === 'number' || typeof config.pin === 'string') {
         pin = config.pin;
       }
-      if (typeof config.clockDivisor === 'number') {
-        clockDivisor = config.clockDivisor;
-      }
-      if (typeof config.range === 'number') {
-        range = config.range;
+      if (typeof config.frequency === 'number') {
+        frequency = config.frequency;
       }
     }
     super(pin);
-    this.rangeValue = range;
-    this.clockDivisorValue = clockDivisor;
-    addon.init(this.pins[0], clockDivisor, range);
+
+    // Pin details from http://elinux.org/RPi_BCM2835_GPIOs
+    let gpioPin: number;
+    let mode: number;
+    switch (this.pins[0]) {
+      case 26: // GPIO12 PWM0 ALT0
+        gpioPin = 12;
+        mode = Gpio.ALT0;
+        this.pwmPort = PWM0;
+        break;
+      case 1: // GPIO18 PWM0 ALT5
+        gpioPin = 18;
+        mode = Gpio.ALT5;
+        this.pwmPort = PWM0;
+        break;
+      case 23: // GPIO13 PWM1 ALT0
+        gpioPin = 13;
+        mode = Gpio.ALT0;
+        this.pwmPort = PWM1;
+        break;
+      case 24: // GPIO19 PWM1 ALT5
+        gpioPin = 19;
+        mode = Gpio.ALT5;
+        this.pwmPort = PWM1;
+        break;
+      default:
+        throw new Error(`Pin ${pin} does not support hardware PWM`);
+    }
+
+    if (pwmPeripheralsInUse[this.pwmPort]) {
+      throw new Error(`${this.pwmPort} is already in use and cannot be used again`);
+    }
+    pwmPeripheralsInUse[this.pwmPort] = true;
+
+    this.frequencyValue = frequency;
+    this.dutyCycleValue = 0;
+    this.pwm = new Gpio(gpioPin, { mode });
   }
 
-  public get clockDivisor(): number {
-    return this.clockDivisorValue;
-  }
-
-  public get range(): number {
-    return this.rangeValue;
+  public destroy() {
+    pwmPeripheralsInUse[this.pwmPort] = false;
+    super.destroy();
   }
 
   public write(value: number) {
     if (!this.alive) {
       throw new Error('Attempted to write to a destroyed peripheral');
     }
-    if (typeof value !== 'number' || value < 0 || value > 1024) {
-      throw new Error('Invalid PWM value ' + value);
+    if (typeof value !== 'number' || value < 0 || value > 1) {
+      throw new Error(`Invalid PWM value ${value}`);
     }
-    addon.write(this.pins[0], value);
+    this.dutyCycleValue = value;
+    this.pwm.hardwarePwmWrite(this.frequencyValue, Math.round(this.dutyCycleValue * MAX_DUTY_CYCLE));
   }
 }

@@ -1,21 +1,23 @@
 {
   "name": "raspi-pwm",
-  "version": "3.1.3",
+  "version": "4.0.0",
   "description": "Provides access to PWM on the Raspberry Pi as part of the Raspi.js library suite",
   "main": "dist/index.js",
   "types": "./declarations/index.d.ts",
   "dependencies": {
-    "nan": "^2.4.0",
-    "raspi-peripheral": "^1.6.3"
+    "raspi-peripheral": "^1.6.3",
+    "pigpio": "^0.5.1"
   },
   "devDependencies": {
-    "@types/node": "0.0.2",
-    "tslint": "^4.0.2",
-    "typescript": "^2.0.10"
+    "@types/node": "^7.0.13",
+    "@types/pigpio": "^0.4.1",
+    "tslint": "^5.1.0",
+    "typescript": "^2.2.2"
   },
   "scripts": {
     "prebuild": "tslint src/**/*.ts",
     "build": "tsc",
+    "preinstall": "sh ./script/pigpio.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,7 +31,6 @@
   ],
   "author": "Bryan Hughes <bryan@nebri.us>",
   "license": "MIT",
-  "gypfile": true,
   "bugs": {
     "url": "https://github.com/nebrius/raspi-pwm/issues"
   },

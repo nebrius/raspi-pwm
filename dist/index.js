@@ -22,23 +22,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var raspi_peripheral_1 = require('raspi-peripheral');
-// Creating type definition files for native code is...not so simple, so instead
-// we just disable tslint and trust that it works. It's not any less safe than
-// creating an external .d.ts file, and this way we don't have to move it around
-// tslint:disable-next-line
-var addon = require('../build/Release/addon');
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var raspi_peripheral_1 = require("raspi-peripheral");
+var pigpio_1 = require("pigpio");
+var MAX_DUTY_CYCLE = 1000000;
+var PWM0 = 'PWM0';
+var PWM1 = 'PWM1';
+// So there's a funky thing with PWM, where there are four PWM-capable pins,
+// but only two actual PWM ports. So the standard pin contention mechanism
+// doesn't _quite_ cover all cases. This object tracks which PWM peripherals are
+// in use at a given time, so we can do error checking on it.
+var pwmPeripheralsInUse = (_a = {},
+    _a[PWM0] = false,
+    _a[PWM1] = false,
+    _a);
 var PWM = (function (_super) {
     __extends(PWM, _super);
     function PWM(config) {
-        var pin = 'PWM0';
-        var clockDivisor = 400;
-        var range = 1000;
+        var _this = this;
+        var pin = 1;
+        var frequency = 50;
         if (typeof config === 'number' || typeof config === 'string') {
             pin = config;
         }
@@ -46,42 +59,77 @@ var PWM = (function (_super) {
             if (typeof config.pin === 'number' || typeof config.pin === 'string') {
                 pin = config.pin;
             }
-            if (typeof config.clockDivisor === 'number') {
-                clockDivisor = config.clockDivisor;
-            }
-            if (typeof config.range === 'number') {
-                range = config.range;
+            if (typeof config.frequency === 'number') {
+                frequency = config.frequency;
             }
         }
-        _super.call(this, pin);
-        this.rangeValue = range;
-        this.clockDivisorValue = clockDivisor;
-        addon.init(this.pins[0], clockDivisor, range);
+        _this = _super.call(this, pin) || this;
+        // Pin details from http://elinux.org/RPi_BCM2835_GPIOs
+        var gpioPin;
+        var mode;
+        switch (_this.pins[0]) {
+            case 26:
+                gpioPin = 12;
+                mode = pigpio_1.Gpio.ALT0;
+                _this.pwmPort = PWM0;
+                break;
+            case 1:
+                gpioPin = 18;
+                mode = pigpio_1.Gpio.ALT5;
+                _this.pwmPort = PWM0;
+                break;
+            case 23:
+                gpioPin = 13;
+                mode = pigpio_1.Gpio.ALT0;
+                _this.pwmPort = PWM1;
+                break;
+            case 24:
+                gpioPin = 19;
+                mode = pigpio_1.Gpio.ALT5;
+                _this.pwmPort = PWM1;
+                break;
+            default:
+                throw new Error("Pin " + pin + " does not support hardware PWM");
+        }
+        if (pwmPeripheralsInUse[_this.pwmPort]) {
+            throw new Error(_this.pwmPort + " is already in use and cannot be used again");
+        }
+        pwmPeripheralsInUse[_this.pwmPort] = true;
+        _this.frequencyValue = frequency;
+        _this.dutyCycleValue = 0;
+        _this.pwm = new pigpio_1.Gpio(gpioPin, { mode: mode });
+        return _this;
     }
-    Object.defineProperty(PWM.prototype, "clockDivisor", {
+    Object.defineProperty(PWM.prototype, "frequency", {
         get: function () {
-            return this.clockDivisorValue;
+            return this.frequencyValue;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(PWM.prototype, "range", {
+    Object.defineProperty(PWM.prototype, "dutyCycle", {
         get: function () {
-            return this.rangeValue;
+            return this.dutyCycleValue;
         },
         enumerable: true,
         configurable: true
     });
+    PWM.prototype.destroy = function () {
+        pwmPeripheralsInUse[this.pwmPort] = false;
+        _super.prototype.destroy.call(this);
+    };
     PWM.prototype.write = function (value) {
         if (!this.alive) {
             throw new Error('Attempted to write to a destroyed peripheral');
         }
-        if (typeof value !== 'number' || value < 0 || value > 1024) {
-            throw new Error('Invalid PWM value ' + value);
+        if (typeof value !== 'number' || value < 0 || value > 1) {
+            throw new Error("Invalid PWM value " + value);
         }
-        addon.write(this.pins[0], value);
+        this.dutyCycleValue = value;
+        this.pwm.hardwarePwmWrite(this.frequencyValue, Math.round(this.dutyCycleValue * MAX_DUTY_CYCLE));
     };
     return PWM;
 }(raspi_peripheral_1.Peripheral));
 exports.PWM = PWM;
+var _a;
 //# sourceMappingURL=index.js.map

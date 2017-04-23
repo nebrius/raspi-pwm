@@ -1,3 +1,10 @@
+## 4.0.0 (2017-4-23)
+
+- Removed Wiring Pi and replaced it with pigpio.
+- BREAKING CHANGE: removed the `range` and `clockDivisor` constructor options and instance properties
+- Added `frequency` constructor option and instance property. Replace the use of `range` and `clockDivisor` with this property.
+- BREAKING CHANGE: `write` now takes a floating point number between 0 and 1, instead of an integer between 0 and 1024.
+
 ## 3.1.3 (2017-22-1)
 
 - Publishing a new version to update the README on npmjs.com. No other changes.
