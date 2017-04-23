@@ -21,13 +21,27 @@ npm install raspi-pwm
 
 ## Example Usage
 
+In TypeScript/ES6:
+
+```TypeScript
+import { init } from 'raspi';
+import { PWM } from 'raspi-pwm';
+
+init(() => {
+  const led = new PWM('P1-12');
+  led.write(0.5); // 50% Duty Cycle, half brightness
+});
+```
+
+In JavaScript:
+
 ```JavaScript
 const raspi = require('raspi');
 const pwm = require('raspi-pwm');
 
 raspi.init(() => {
   const led = new pwm.PWM('P1-12');
-  led.write(pwm.MAX_DUTY_CYCLE / 2); // 50% Duty Cycle, aka half brightness
+  led.write(0.5); // 50% Duty Cycle, aka half brightness
 });
 ```
 

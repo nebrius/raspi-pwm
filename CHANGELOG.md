@@ -1,3 +1,7 @@
+## 4.0.1 (2017-4-23)
+
+ - Updated documentation
+
 ## 4.0.0 (2017-4-23)
 
 - Removed Wiring Pi and replaced it with pigpio.
