@@ -1,7 +1,7 @@
 import { Peripheral } from 'raspi-peripheral';
 export interface IConfig {
     pin?: number | string;
-    frequency: number;
+    frequency?: number;
 }
 export declare class PWM extends Peripheral {
     private frequencyValue;
@@ -12,5 +12,5 @@ export declare class PWM extends Peripheral {
     readonly dutyCycle: number;
     constructor(config?: number | string | IConfig);
     destroy(): void;
-    write(value: number): void;
+    write(dutyCycle: number): void;
 }

@@ -27,9 +27,11 @@ import { Gpio } from 'pigpio';
 
 export interface IConfig {
   pin?: number | string;
-  frequency: number;
+  frequency?: number;
 }
 
+const DEFAULT_PIN = 1;
+const DEFAULT_FREQUENCY = 50;
 const MAX_DUTY_CYCLE = 1000000;
 
 const PWM0 = 'PWM0';
@@ -61,8 +63,8 @@ export class PWM extends Peripheral {
   }
 
   constructor(config?: number | string | IConfig) {
-    let pin: number | string = 1;
-    let frequency = 50;
+    let pin: number | string = DEFAULT_PIN;
+    let frequency = DEFAULT_FREQUENCY;
     if (typeof config === 'number' || typeof config === 'string') {
       pin = config;
     } else if (typeof config === 'object') {
@@ -118,14 +120,14 @@ export class PWM extends Peripheral {
     super.destroy();
   }
 
-  public write(value: number) {
+  public write(dutyCycle: number) {
     if (!this.alive) {
       throw new Error('Attempted to write to a destroyed peripheral');
     }
-    if (typeof value !== 'number' || value < 0 || value > 1) {
-      throw new Error(`Invalid PWM value ${value}`);
+    if (typeof dutyCycle !== 'number' || dutyCycle < 0 || dutyCycle > 1) {
+      throw new Error(`Invalid PWM duty cycle ${dutyCycle}`);
     }
-    this.dutyCycleValue = value;
+    this.dutyCycleValue = dutyCycle;
     this.pwm.hardwarePwmWrite(this.frequencyValue, Math.round(this.dutyCycleValue * MAX_DUTY_CYCLE));
   }
 }

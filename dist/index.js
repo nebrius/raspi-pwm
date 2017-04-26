@@ -35,6 +35,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var raspi_peripheral_1 = require("raspi-peripheral");
 var pigpio_1 = require("pigpio");
+var DEFAULT_PIN = 1;
+var DEFAULT_FREQUENCY = 50;
 var MAX_DUTY_CYCLE = 1000000;
 var PWM0 = 'PWM0';
 var PWM1 = 'PWM1';
@@ -50,8 +52,8 @@ var PWM = (function (_super) {
     __extends(PWM, _super);
     function PWM(config) {
         var _this = this;
-        var pin = 1;
-        var frequency = 50;
+        var pin = DEFAULT_PIN;
+        var frequency = DEFAULT_FREQUENCY;
         if (typeof config === 'number' || typeof config === 'string') {
             pin = config;
         }
@@ -118,14 +120,14 @@ var PWM = (function (_super) {
         pwmPeripheralsInUse[this.pwmPort] = false;
         _super.prototype.destroy.call(this);
     };
-    PWM.prototype.write = function (value) {
+    PWM.prototype.write = function (dutyCycle) {
         if (!this.alive) {
             throw new Error('Attempted to write to a destroyed peripheral');
         }
-        if (typeof value !== 'number' || value < 0 || value > 1) {
-            throw new Error("Invalid PWM value " + value);
+        if (typeof dutyCycle !== 'number' || dutyCycle < 0 || dutyCycle > 1) {
+            throw new Error("Invalid PWM duty cycle " + dutyCycle);
         }
-        this.dutyCycleValue = value;
+        this.dutyCycleValue = dutyCycle;
         this.pwm.hardwarePwmWrite(this.frequencyValue, Math.round(this.dutyCycleValue * MAX_DUTY_CYCLE));
     };
     return PWM;

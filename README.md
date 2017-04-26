@@ -122,7 +122,7 @@ _Arguments_:
 
 #### frequency
 
-A number representing the frequency initialization value. If a value for `frequency` was passed to the constructor, it is reflected back here. If no value for `frequency` was passed to the constructor, then this reflects the default frequency value of `50`.
+A number representing the frequency initialization value, in Hz. If a value for `frequency` was passed to the constructor, it is reflected back here. If no value for `frequency` was passed to the constructor, then this reflects the default frequency value of `50`.
 
 #### dutyCycle
 
@@ -145,7 +145,7 @@ _Arguments_:
     </tr>
   </thead>
   <tr>
-    <td>value</td>
+    <td>dutyCycle</td>
     <td>Number</td>
     <td>The duty cycle for the PWM to set, must be a floating point number between 0 and 1</td>
   </tr>

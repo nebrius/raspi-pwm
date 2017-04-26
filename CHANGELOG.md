@@ -1,6 +1,10 @@
+## 4.0.2 (2017-4-25)
+
+- Fixed a bug in the TypeScript definitions that said `frequencey` was required when in reality it's not.
+
 ## 4.0.1 (2017-4-23)
 
- - Updated documentation
+- Updated documentation
 
 ## 4.0.0 (2017-4-23)
 
