@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2014 Bryan Hughes <bryan@nebri.us>
+Copyright (c) 2014-2017 Bryan Hughes <bryan@nebri.us>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -48,18 +48,18 @@ const pwmPeripheralsInUse = {
 
 export class PWM extends Peripheral {
 
-  private frequencyValue: number;
-  private dutyCycleValue: number;
-  private pwmPort: string;
+  private _frequencyValue: number;
+  private _dutyCycleValue: number;
+  private _pwmPort: string;
 
-  private pwm: Gpio;
+  private _pwm: Gpio;
 
   public get frequency() {
-    return this.frequencyValue;
+    return this._frequencyValue;
   }
 
   public get dutyCycle() {
-    return this.dutyCycleValue;
+    return this._dutyCycleValue;
   }
 
   constructor(config?: number | string | IConfig) {
@@ -84,39 +84,39 @@ export class PWM extends Peripheral {
       case 26: // GPIO12 PWM0 ALT0
         gpioPin = 12;
         mode = Gpio.ALT0;
-        this.pwmPort = PWM0;
+        this._pwmPort = PWM0;
         break;
       case 1: // GPIO18 PWM0 ALT5
         gpioPin = 18;
         mode = Gpio.ALT5;
-        this.pwmPort = PWM0;
+        this._pwmPort = PWM0;
         break;
       case 23: // GPIO13 PWM1 ALT0
         gpioPin = 13;
         mode = Gpio.ALT0;
-        this.pwmPort = PWM1;
+        this._pwmPort = PWM1;
         break;
       case 24: // GPIO19 PWM1 ALT5
         gpioPin = 19;
         mode = Gpio.ALT5;
-        this.pwmPort = PWM1;
+        this._pwmPort = PWM1;
         break;
       default:
         throw new Error(`Pin ${pin} does not support hardware PWM`);
     }
 
-    if (pwmPeripheralsInUse[this.pwmPort]) {
-      throw new Error(`${this.pwmPort} is already in use and cannot be used again`);
+    if (pwmPeripheralsInUse[this._pwmPort]) {
+      throw new Error(`${this._pwmPort} is already in use and cannot be used again`);
     }
-    pwmPeripheralsInUse[this.pwmPort] = true;
+    pwmPeripheralsInUse[this._pwmPort] = true;
 
-    this.frequencyValue = frequency;
-    this.dutyCycleValue = 0;
-    this.pwm = new Gpio(gpioPin, { mode });
+    this._frequencyValue = frequency;
+    this._dutyCycleValue = 0;
+    this._pwm = new Gpio(gpioPin, { mode });
   }
 
   public destroy() {
-    pwmPeripheralsInUse[this.pwmPort] = false;
+    pwmPeripheralsInUse[this._pwmPort] = false;
     super.destroy();
   }
 
@@ -127,7 +127,8 @@ export class PWM extends Peripheral {
     if (typeof dutyCycle !== 'number' || dutyCycle < 0 || dutyCycle > 1) {
       throw new Error(`Invalid PWM duty cycle ${dutyCycle}`);
     }
-    this.dutyCycleValue = dutyCycle;
-    this.pwm.hardwarePwmWrite(this.frequencyValue, Math.round(this.dutyCycleValue * MAX_DUTY_CYCLE));
+    this._dutyCycleValue = dutyCycle;
+    this._pwm.hardwarePwmWrite(this._frequencyValue, Math.round(this._dutyCycleValue * MAX_DUTY_CYCLE));
+    this.emit('change', this._dutyCycleValue);
   }
 }

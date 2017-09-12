@@ -4,10 +4,10 @@ export interface IConfig {
     frequency?: number;
 }
 export declare class PWM extends Peripheral {
-    private frequencyValue;
-    private dutyCycleValue;
-    private pwmPort;
-    private pwm;
+    private _frequencyValue;
+    private _dutyCycleValue;
+    private _pwmPort;
+    private _pwm;
     readonly frequency: number;
     readonly dutyCycle: number;
     constructor(config?: number | string | IConfig);

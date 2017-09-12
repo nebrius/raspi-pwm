@@ -1,7 +1,8 @@
+"use strict";
 /*
 The MIT License (MIT)
 
-Copyright (c) 2014 Bryan Hughes <bryan@nebri.us>
+Copyright (c) 2014-2017 Bryan Hughes <bryan@nebri.us>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +22,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -48,7 +48,7 @@ var pwmPeripheralsInUse = (_a = {},
     _a[PWM0] = false,
     _a[PWM1] = false,
     _a);
-var PWM = (function (_super) {
+var PWM = /** @class */ (function (_super) {
     __extends(PWM, _super);
     function PWM(config) {
         var _this = this;
@@ -70,54 +70,54 @@ var PWM = (function (_super) {
         var gpioPin;
         var mode;
         switch (_this.pins[0]) {
-            case 26:
+            case 26:// GPIO12 PWM0 ALT0
                 gpioPin = 12;
                 mode = pigpio_1.Gpio.ALT0;
-                _this.pwmPort = PWM0;
+                _this._pwmPort = PWM0;
                 break;
-            case 1:
+            case 1:// GPIO18 PWM0 ALT5
                 gpioPin = 18;
                 mode = pigpio_1.Gpio.ALT5;
-                _this.pwmPort = PWM0;
+                _this._pwmPort = PWM0;
                 break;
-            case 23:
+            case 23:// GPIO13 PWM1 ALT0
                 gpioPin = 13;
                 mode = pigpio_1.Gpio.ALT0;
-                _this.pwmPort = PWM1;
+                _this._pwmPort = PWM1;
                 break;
-            case 24:
+            case 24:// GPIO19 PWM1 ALT5
                 gpioPin = 19;
                 mode = pigpio_1.Gpio.ALT5;
-                _this.pwmPort = PWM1;
+                _this._pwmPort = PWM1;
                 break;
             default:
                 throw new Error("Pin " + pin + " does not support hardware PWM");
         }
-        if (pwmPeripheralsInUse[_this.pwmPort]) {
-            throw new Error(_this.pwmPort + " is already in use and cannot be used again");
+        if (pwmPeripheralsInUse[_this._pwmPort]) {
+            throw new Error(_this._pwmPort + " is already in use and cannot be used again");
         }
-        pwmPeripheralsInUse[_this.pwmPort] = true;
-        _this.frequencyValue = frequency;
-        _this.dutyCycleValue = 0;
-        _this.pwm = new pigpio_1.Gpio(gpioPin, { mode: mode });
+        pwmPeripheralsInUse[_this._pwmPort] = true;
+        _this._frequencyValue = frequency;
+        _this._dutyCycleValue = 0;
+        _this._pwm = new pigpio_1.Gpio(gpioPin, { mode: mode });
         return _this;
     }
     Object.defineProperty(PWM.prototype, "frequency", {
         get: function () {
-            return this.frequencyValue;
+            return this._frequencyValue;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(PWM.prototype, "dutyCycle", {
         get: function () {
-            return this.dutyCycleValue;
+            return this._dutyCycleValue;
         },
         enumerable: true,
         configurable: true
     });
     PWM.prototype.destroy = function () {
-        pwmPeripheralsInUse[this.pwmPort] = false;
+        pwmPeripheralsInUse[this._pwmPort] = false;
         _super.prototype.destroy.call(this);
     };
     PWM.prototype.write = function (dutyCycle) {
@@ -127,8 +127,9 @@ var PWM = (function (_super) {
         if (typeof dutyCycle !== 'number' || dutyCycle < 0 || dutyCycle > 1) {
             throw new Error("Invalid PWM duty cycle " + dutyCycle);
         }
-        this.dutyCycleValue = dutyCycle;
-        this.pwm.hardwarePwmWrite(this.frequencyValue, Math.round(this.dutyCycleValue * MAX_DUTY_CYCLE));
+        this._dutyCycleValue = dutyCycle;
+        this._pwm.hardwarePwmWrite(this._frequencyValue, Math.round(this._dutyCycleValue * MAX_DUTY_CYCLE));
+        this.emit('change', this._dutyCycleValue);
     };
     return PWM;
 }(raspi_peripheral_1.Peripheral));
