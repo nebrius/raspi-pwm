@@ -5,7 +5,7 @@ Raspi PWM
 
 Raspi PWM is part of the [Raspi.js suite](https://github.com/nebrius/raspi) that provides access to the hardware PWM.
 
-If you have a bug report, feature request, or wish to contribute code, please be sure to check out the [Contributing Guide](blob/master/CONTRIBUTING.md).
+If you have a bug report, feature request, or wish to contribute code, please be sure to check out the [Raspi IO Contributing Guide](https://github.com/nebrius/raspi-io/blob/master/CONTRIBUTING.md).
 
 ## System Requirements
 
