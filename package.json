@@ -9,8 +9,9 @@
     "pigpio": "^0.6.1"
   },
   "devDependencies": {
-    "@types/node": "^8.0.28",
+    "@types/node": "^9.3.0",
     "@types/pigpio": "^0.4.1",
+    "@types/raspi-peripheral": "^2.0.0",
     "tslint": "^5.7.0",
     "typescript": "^2.5.2"
   },

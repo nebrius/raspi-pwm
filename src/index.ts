@@ -41,7 +41,7 @@ const PWM1 = 'PWM1';
 // but only two actual PWM ports. So the standard pin contention mechanism
 // doesn't _quite_ cover all cases. This object tracks which PWM peripherals are
 // in use at a given time, so we can do error checking on it.
-const pwmPeripheralsInUse = {
+const pwmPeripheralsInUse: { [ port: string ]: boolean } = {
   [PWM0]: false,
   [PWM1]: false
 };
