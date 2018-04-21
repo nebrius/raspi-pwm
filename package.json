@@ -1,12 +1,12 @@
 {
   "name": "raspi-pwm",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Provides access to PWM on the Raspberry Pi as part of the Raspi.js library suite",
   "main": "dist/index.js",
   "types": "./declarations/index.d.ts",
   "dependencies": {
     "raspi-peripheral": "^2.0.1",
-    "pigpio": "^0.6.1"
+    "pigpio": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^9.3.0",
@@ -16,7 +16,7 @@
     "typescript": "^2.5.2"
   },
   "engines": {
-    "node": ">= 4.0.0"
+    "node": ">= 6.4.0"
   },
   "cpu": [
     "arm"
