@@ -1,3 +1,7 @@
+## 6.0.1 (2021-10-11)
+
+- Deprecated this package in favor of [raspi-soft-pwm](https://github.com/nebrius/raspi-soft-pwm)
+
 ## 6.0.0 (2018-4-21)
 
 - Updated pigpio to v1
